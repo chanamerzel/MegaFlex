@@ -10,7 +10,7 @@ const connection = mysql.createConnection({
     port: 3306,
     user: "root",
     password: "1234",
-    database: "shoesShop"
+    database: "shoesshop"
 });
 
 connection.connect((err) => {
@@ -57,6 +57,21 @@ router.get('/profits', (req, res) => {
 
     });
 });
+router.post('/exists', (req, res) => {
+    console.log("in exists");
+    let bodyData = req.body;
+    let CustomerID = bodyData.CustomerID
+    let FirstName = bodyData.FirstName
+    let sqlQuery = `select * from orders i
+    join customers o on o.CustomerID = i.CustomerID
+    where o.CustomerID ="${CustomerID}" and Status = 0 and FirstName="${FirstName}";`;
+    connection.query(sqlQuery, (err, result, fields) => {
+        if (err) console.log("13 err " + err);
+        console.log(result);
+        res.send(result);
+
+    });
+});
 router.post('/ifexists', (req, res) => {
     console.log("in orders");
     let bodydata = req.body;
@@ -72,14 +87,13 @@ router.post('/ifexists', (req, res) => {
         } else {
             res.send(result);
         }
-        // res.json(resulaat);
         console.log(result);
     });
 });
 
 router.get('/ordered', (req, res) => {
     console.log("in orders");
-    let sqlQuery = `SELECT * FROM shoesshop.orders
+    let sqlQuery = `SELECT * FROM orders
     join customers on customers.CustomerID=orders.CustomerID
     where orders.Status=1;`;
     connection.query(sqlQuery, (err, result, fields) => {

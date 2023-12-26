@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Nav from "./Nav"
 import '../App.css';
 import { useLocation } from 'react-router-dom';
-
 export default function Manager_Add_Category(props) {
     const [category_name, setCategoryName] = useState("");
     const [categories, setCategories] = useState([]);
@@ -21,12 +20,11 @@ export default function Manager_Add_Category(props) {
     }
     async function save_new_category() {
         debugger;
-        if (category_name == '') {
+        if (category_name === '') {
             alert("Please fill in the input field!!");
         }
         else {
-            if (typeof category_name == "string" && isNaN(category_name)) {
-
+            if (typeof category_name === "string" && isNaN(category_name)) {
                 let exsistname = false;
                 categories.forEach(cat => {
                     if (cat.CategoryName === category_name) {
@@ -49,25 +47,15 @@ export default function Manager_Add_Category(props) {
                         })
                     })
                     ans = await ans.json();
-                    console.log(ans);
                     saveCategoryName('');
                     getAllCategories()
                 }
             }
             else {
                 alert('There is a problem with the input field');
-                console.log("typeof category_name: " + Number(category_name));
             }
         }
-
     }
-
-
-
-
-
-
-
     return (<div>
         <Nav />
         <br /><br /><br />

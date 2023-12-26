@@ -14,7 +14,7 @@ const connection = mysql.createConnection({
     port: 3306,
     user: "root",
     password: "1234",
-    database: "shoesShop"
+    database: "shoesshop"
 });
 
 connection.connect((err) => {
@@ -28,6 +28,9 @@ const customer = require('./customer');
 const products = require('./products');
 const orders = require('./orders');
 const cart = require('./cart');
+const quantityofsize = require('./quantityofsize');
+
+// const email = require('./emailSender');
 
 app.get('/', (req, res) => { res.json("server"); });
 app.use('/image', image);
@@ -35,6 +38,9 @@ app.use('/customer', customer);
 app.use('/products', products);
 app.use('/orders', orders);
 app.use('/cart', cart);
+app.use('/quantityofsize', quantityofsize);
+
+// app.use('/emailSender', email);
 
 app.use(express.static('images'));
 app.listen(port, () => {

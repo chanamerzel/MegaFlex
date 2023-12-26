@@ -7,12 +7,12 @@ const connection = mysql.createConnection({
     port: 3306,
     user: "root",
     password: "1234",
-    database: "shoesShop"
+    database: "shoesshop"
 });
 
 connection.connect((err) => {
     if (err) {
-        console.log("7err " + err);
+        console.log("7err " + "err");
 
     } else
         console.log('connected');
@@ -36,113 +36,139 @@ console.log("in cart");
 
 //     res.send(true);
 // })
-router.put('/quantity', (req, res) => {
-    const bodyData = req.body.quantity;
-    console.log(bodyData);
-    console.log("quantity");
-    bodyData.forEach(element => {
-        console.log(element)
-        connection.query(
-            `UPDATE shoesshop.itemsincart
-        SET Quantity ="${element.quantity}"`
 
-            , (err, rows) => {
-                if (err)
-                    console.log("element.quantity " + element.quantity);
-                console.log("2err " + err);
-            }
-        );
-    });
 
-    res.send(true);
-})
+// router.put('/quantity', (req, res) => {
+//     const bodyData = req.body.quantity;
+//     console.log(bodyData);
+//     console.log("quantity");
+//     bodyData.forEach(element => {
+//         console.log(element)
+//         connection.query(
+//             `UPDATE shoesshop.itemsincart
+//         SET Quantity ="${element.quantity}"`
+
+//             , (err, rows) => {
+//                 if (err)
+//                     console.log("element.quantity " + element.quantity);
+//                 console.log("2err " + err);
+//             }
+//         );
+//     });
+
+//     res.send(true);
+// })
 
 router.put('/update_items_in_cart', (req, res) => {
     const bodyData = req.body.quantity;
-    console.log(bodyData);
-    console.log("quantity");
+    const orderid = req.body.orderid;
+    console.log(bodyData[0]);
+    console.log("quantity: " + req.body);
     bodyData.forEach(element => {
-        console.log(element)
-        console.log("element.shoeSize: " + element.shoeSize);
-        console.log("element.ItemCartCode " + element.ItemCartCode);
+        let text = `UPDATE shoesshop.itemsincart 
+        SET Quantity=${element.QuantityItem},ItemInCartSize=${element.ItemInCartSize} where ItemInCartCode=${element.ItemInCartCode}`;
 
+        connection.query(text, (err, rows) => {
+            console.log("text:  " + text)
+            if (err)
+                console.log("element  quantity: " + element.QuantityItem);
+            console.log("2err " + "err");
 
-        connection.query(
-            `UPDATE shoesshop.itemsincart 
-            SET Quantity ="${element.quantity}",ItemInCartSize=${element.shoeSize} where ItemInCartCode="${element.ItemCartCode}";`
+            console.log("element  shoeSize: " + element.ItemInCartSize);
+            console.log("element  CodeItem: " + element.CodeItem);
+            console.log("element  orderid: " + orderid);
+            console.log("element  CodeItem: " + element.CodeItem);
 
-            , (err, rows) => {
-                if (err)
-                    console.log("element  quantity: " + element.ItemCartCode);
-                console.log("2err " + err);
-            }
-        );
+        });
+
+        // connection.query(
+        //     `UPDATE shoesshop.quantityofsize 
+        //     SET Quantity=${element.QuantityItem},ItemInCartSize=${element.ItemInCartSize} where CodeItem=${element.CodeItem} and OrderID =${orderid}`, (err, rows) => {
+        //         if (err)
+        //             console.log("element  quantity: " + element.QuantityItem);
+        //         console.log("element  shoeSize: " + element.ItemInCartSize);
+        //         console.log("element  CodeItem: " + element.CodeItem);
+        //         console.log("element  orderid: " + orderid);
+        //         console.log("2err " + err);
+        //     }
+        // );
     });
-
     res.send(true);
 })
 
 
-router.put('/update/quantity$shoeSize', (req, res) => {
-    const bodyData = req.body.quantity;
-    console.log("/update/quantity$shoeSize  " + bodyData);
-    console.log("quantity");
-    bodyData.forEach(element => {
-        console.log("element: " + element)
-        connection.query(
-            ` UPDATE shoesshop.itemsincart 
-		SET Quantity ="${element.QuantityItem}",ItemInCartSize=${element.ItemInCartSize} where ItemInCartCode="${element.ItemCartCode}";`
+// router.put('/update/quantity$shoeSize', (req, res) => {
+//     const bodyData = req.body.quantity;
+//     console.log("/update/quantity$shoeSize  " + bodyData);
+//     console.log("quantity");
+//     bodyData.forEach(element => {
+//         console.log("element: " + element)
+//         connection.query(
+//             ` UPDATE shoesshop.itemsincart 
+// 		SET Quantity ="${element.QuantityItem}",ItemInCartSize=${element.ItemInCartSize} where ItemInCartCode="${element.ItemCartCode}";`
 
-            , (err, rows) => {
-                if (err)
-                    console.log("2err " + err);
-            }
-        );
-    });
+//             , (err, rows) => {
+//                 if (err)
+//                     console.log("2err " + err);
+//             }
+//         );
+//     });
 
-    res.send(true);
-})
+//     res.send(true);
+// })
 
 
 
 router.post('/shopingCart', (req, res) => {
     console.log("req.body" + req.body.password);
-    let sqlQuery = `select it.ItemName,it.CodeItem,it.QuantityItem,OrderID from itemsincart i
+    let sqlQuery = `select * from itemsincart i
     join orders o on o.ordercode = i.orderid
     join items it on i.codeitem = it.CodeItem
     where o.customerid ="${req.body.password}" and Status = 0`;
 
     connection.query(sqlQuery, (err, result, fields) => {
-        if (err) console.log("3err " + err);
+        if (err) console.log("3err " + "err");
 
         res.send(result);
 
     });
 });
+
 router.post("/insert", (req, res) => {
         const bodyData = req.body.post;
         let orderid = req.body.OrderID
-        console.log("bodyData1 " + JSON.stringify(req.body));
-        let return_array = []
+        let query = `SELECT OrderCode FROM shoesshop.orders;`;
+        // let response = []
+        // connection.query(query,
+        //     (err, rows, fields) => {
+        //         if (err)
+        //             console.log("4err " + "insert query");
+        //         console.log(query);
+        //         response = rows;
+
+        //     }
+        // );
+        // console.log("response.includes(orderid): " + JSON.stringify(response))
+        // if (response.includes(orderid)) {
+
         bodyData.forEach(element => {
-            connection.query(
-                `INSERT INTO itemsincart(CodeItem,OrderID,Quantity,ItemInCartSize)  
-            VALUES(${element.CodeItem},"${orderid}","${element.QuantityItem}","${element.ItemInCartSize}")`,
+            let text = `INSERT INTO shoesshop.itemsincart (CodeItem, OrderID, Quantity, ItemInCartSize) VALUES ('${element.CodeItem}','${orderid}','${element.QuantityItem}','${element.ItemInCartSize}')`
+
+            connection.query(text,
                 (err, rows, fields) => {
                     if (err)
-                        console.log("4err " + "err");
-                    let p = `INSERT INTO itemsincart(CodeItem,OrderID,Quantity)  VALUES(${element.CodeItem},"${orderid}","${element.QuantityItem}","${element.ItemInCartSize}")`;
-                    console.log(p);
+                        console.log("4err " + "bodyData: " + bodyData);
+                    console.log(text);
                 }
             );
 
 
         });
+        // }
         connection.query(
             `SELECT (ItemInCartCode) FROM shoesshop.itemsincart where OrderID=${orderid}`, (err, ros) => {
                 if (err)
-                    console.log(err);
-                console.log("ros: " + ros[0].ItemInCartCode);
+                    console.log("33454err");
                 res.send(ros)
             });
     }
@@ -170,7 +196,7 @@ router.delete("/deleteitem", (req, res) => {
     console.log(sqlQuery);
     connection.query(sqlQuery, (err, result, fields) => {
         if (err) {
-            console.log("5err " + err);
+            console.log("5err " + "err");
             res.send(false);
 
         } else {
@@ -187,7 +213,7 @@ router.delete("/delete/allitem", (req, res) => {
     console.log(sqlQuery);
     connection.query(sqlQuery, (err, result, fields) => {
         if (err) {
-            console.log("6err " + err);
+            console.log("6err " + "err");
             res.send(false);
 
         } else {
@@ -196,5 +222,5 @@ router.delete("/delete/allitem", (req, res) => {
         }
     });
 });
-
+console.log("out of cart")
 module.exports = router;

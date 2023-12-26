@@ -9,7 +9,7 @@ const connection = mysql.createConnection({
     port: 3306,
     user: "root",
     password: "1234",
-    database: "shoesShop"
+    database: "shoesshop"
 });
 
 connection.connect((err) => {
@@ -31,6 +31,17 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/GetItemCartCode', (req, res) => {
+    console.log("in products");
+    let sqlQuery = `SELECT * FROM items;`
+    console.log(sqlQuery);
+    connection.query(sqlQuery, (err, result, fields) => {
+        if (err) console.log("18 err " + err);
+        console.log(result);
+        res.send(result);
+
+    });
+});
 router.get('/category/:category', (req, res) => {
     let cName = req.params.category;
     console.log(cName);
@@ -118,7 +129,7 @@ router.post("/item/name", (req, res) => {
     let sqlQuery = `SELECT *
     FROM shoesshop.items
     LEFT JOIN shoesshop.itemsincart ON items.CodeItem = itemsincart.CodeItem
-    WHERE itemsincart.ItemInCartCode is not null and itemsincart.OrderID="${body.OrderID}" ;`;
+    WHERE itemsincart.ItemInCartCode is not null and itemsincart.CodeItem="${body.OrderID}" ;`;
     console.log(sqlQuery);
     connection.query(sqlQuery, (err, result, fields) => {
         if (err) {
@@ -130,6 +141,26 @@ router.post("/item/name", (req, res) => {
         }
     });
 });
+
+router.post("/itemsInOrder", (req, res) => {
+    let body = req.body;
+    console.log("/item/name" + req);
+    let sqlQuery = `SELECT *
+    FROM shoesshop.items
+    LEFT JOIN shoesshop.itemsincart ON items.CodeItem = itemsincart.CodeItem
+    WHERE itemsincart.ItemInCartCode is not null and itemsincart.OrderID=${body.OrderID}`;
+    console.log(sqlQuery);
+    connection.query(sqlQuery, (err, result, fields) => {
+        if (err) {
+            console.log("15 err " + err);
+
+        } else {
+            console.log("result" + " " + result + " mmm");
+            res.send(result);
+        }
+    });
+});
+
 
 router.get("/itemdetails/:code", (req, res) => {
     let code = req.params.code;

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Nav from "./Nav"
 import '../App.css';
-
 export default function Manager_AllUsers(props) {
     const [users, setUsers] = useState([]);
     const [foundUser, setFoundUser] = useState("");
@@ -16,7 +15,7 @@ export default function Manager_AllUsers(props) {
         getAllUsers();
     }, []);
     async function findUser(event) {
-        if (event.key === 'Enter' && event.target.value != '') {
+        if (event.key === 'Enter' && event.target.value !== '') {
             let flag = true;
             users.map(user => {
                 if (user.CustomerID === event.target.value) {
@@ -28,9 +27,6 @@ export default function Manager_AllUsers(props) {
         event.target.value = null;
     }
 };
-
-
-
 return (<div style={{marginTop: "-20px"}}>
     <Nav />
     <h1 className='title2'>all store users</h1>

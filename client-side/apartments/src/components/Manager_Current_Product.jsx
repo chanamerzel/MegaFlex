@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import Nav from "./Nav"
 import '../App.css';
 import { useLocation, useNavigate } from 'react-router-dom';
-import My_Manager from "./My_Manager";
-
 export default function Manager_Current_Product(props) {
     let location = useLocation();
     let navigate = useNavigate();
@@ -20,8 +18,6 @@ export default function Manager_Current_Product(props) {
     const [status, setStatus] = useState('');
     const [truf, settruf] = useState(true);
     const [lastpr, setlastpr] = useState({});
-console.log( currentProduct.currentProduct[0].path);
-
     useEffect(() => {
         let lastpr = {
             name: product_name,
@@ -32,7 +28,6 @@ console.log( currentProduct.currentProduct[0].path);
             price: price
         }
         setlastpr(lastpr);
-        // getcategories();
     }, []);
     function App() {
         const handleSubmit = async (e) => {
@@ -69,21 +64,17 @@ console.log( currentProduct.currentProduct[0].path);
             </div>
         );
     }
-  
     function saveproductdescription(text) {
         setdescription(text);
     }
     function saveamountofunits(units) {
         setamount_of_units(units);
     }
-   
     function saveprice(price) {
         setprice(price);
     }
     async function categoryType(val) {
         setcategory(val);
-        // setcategories(val);
-        console.log(`val ${val}`);
         let codeC = await fetch(`http://localhost:3678/products/category/${val}`, {
             method: 'GET'
         });
@@ -93,8 +84,6 @@ console.log( currentProduct.currentProduct[0].path);
             method: 'GET'
         });
         let allCatItems = await catItems.json();
-        console.log(allCatItems);
-        // setProducts(allCatItems);
     };
     function saveproductdescription(text) {
         setdescription(text);
@@ -110,16 +99,14 @@ console.log( currentProduct.currentProduct[0].path);
         setprice(price);
     }
     async function save_new_product() {
-        if (product_name == '' || description == '' || image.preview == '' || amount_of_units == '' || categories == '' || price == '') {
+        if (product_name === '' || description === '' || image.preview === '' || amount_of_units === '' || categories === '' || price === '') {
             alert("Please fill in all input fields!!");
         }
         else {
-            if (typeof product_name == "string" && isNaN(product_name) && typeof description == "string" && isNaN(description)
-                && typeof image.preview == "string" && isNaN(image.preview) &&
+            if (typeof product_name === "string" && isNaN(product_name) && typeof description === "string" && isNaN(description)
+                && typeof image.preview === "string" && isNaN(image.preview) &&
                 !isNaN(amount_of_units) && !isNaN(category) && !isNaN(price) && product_name.length > 0
                 && description.length > 0 && image.preview.length > 0 && amount_of_units > 0 && categories.length > 0 && price > 0) {
-                
-
                 let newpro = {
                     name: product_name,
                     description: description,
@@ -129,7 +116,6 @@ console.log( currentProduct.currentProduct[0].path);
                     price: price,
                     code: code
                 }
-                console.log(image.data.name);
                 let ans = await fetch("http://localhost:3678/products/save", {
                     method: 'PUT',
                     headers: {
@@ -142,34 +128,16 @@ console.log( currentProduct.currentProduct[0].path);
                     })
                 })
                 ans = await ans.json();
-                console.log(ans);
-                
                 navigate("/manager/productlist");
                
             }
             else {
                 alert('There is a problem with the input fields');
-                console.log("typeof product_name: " + Number(product_name));
-                if (isNaN(amount_of_units)) {
-                    console.log("nan!");
-                }
-                console.log("typeof product_description: " + typeof description);
-                console.log("typeof image.preview: " + typeof image.preview);
-                console.log("typeof amount_of_units: " + typeof Number(amount_of_units));
-                console.log("typeof catagory: " + typeof categories);
-               
-                console.log("typeof price: " + typeof price);
             }
-         
         }
-
     }
-
-
-  
     if (categories.length > 0) {
         return (<div>
-           
             <Nav></Nav>
             <form>
                 <h4 className="">put in a product name</h4>
@@ -183,22 +151,15 @@ console.log( currentProduct.currentProduct[0].path);
                         </option>
                     ))}
                 </select>
-               
-            
                 <h4>price</h4>
                 <input type="text" className="" value={price} onChange={(e) => { saveprice(e.target.value) }} placeholder="price"></input>
                 <h4>put in a product description</h4>
                 <textarea className="" value={description} onChange={(e) => { saveproductdescription(e.target.value) }} rows="10" cols="50" placeholder="product description"></textarea >
-             
             </form>
             <br></br>
             {App()}
             <br></br>
             <button className="btn btn-outline-secondary btn-lg" onClick={save_new_product}>save</button>
-
         </div>);
     }
 }
-
-
-

@@ -5,11 +5,12 @@ const fs = require('fs');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
+        console.log("ffffffffffffffffffffffiletttttttttttt" + String(file))
         cb(null, 'images/');
     },
     filename: (req, file, cb) => {
         cb(null, file.originalname);
-        console.log(file)
+        console.log("ffffffffffffffffffffffile" + String(file))
     },
 });
 

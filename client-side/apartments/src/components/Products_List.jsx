@@ -2,19 +2,14 @@ import React, { Component, useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Routes, Route, Link, Outlet } from 'react-router-dom';
-import Client_Current_Product from "./Client_Current_Product";
-import Client_Shoping_Cart from "./Client_Shoping_Cart";
-import Client_Nav from "./Client_Nav";
 export default function Products_List(props) {
     const [products, setProducts] = useState([]);
-    const [client, setClient] = useState("");
     const [categories, setCategories] = useState([]);
     const [category, setCategory] = useState("");
     const [limit, setLimit] = useState(-10);
     const [displayB, setDisplayB] = useState("block");
     const [displayP, setDisplayP] = useState("none");
     let navigate = useNavigate();
-
     let a = 0
     async function getAllCategories() {
         let cat = await fetch(`http://localhost:3678/products/allcategories`, {
@@ -30,15 +25,12 @@ export default function Products_List(props) {
     }
     useEffect(() => {
         a++;
-
         getAllCategories();
         getProducts(a);
-
     }, []);
     function checkExistence(product, arr) {
         for (let index = 0; index < arr.length; index++) {
-            if (product.CodeItem == arr[index].CodeItem) {
-
+            if (product.CodeItem === arr[index].CodeItem) {
                 return true
             }
         }
@@ -47,7 +39,6 @@ export default function Products_List(props) {
     async function getProducts(a) {
         let newLimit = limit + 10;
         setLimit(newLimit)
-        console.log("newLimit" + newLimit);
         let prod = await fetch(`http://localhost:3678/products/limit`, {
             method: 'POST',
             headers: {
@@ -60,18 +51,17 @@ export default function Products_List(props) {
         let arr = products;
         let arrLength = arr.length
         if (a === 1) {
-            if (pro.length == 0) {
+            if (pro.length === 0) {
                 setDisplayB("none")
                 setDisplayP("block")
             }
             else {
-
                 let i = 0;
-                while (i != pro.length) {
+                while (i !== pro.length) {
                     if (checkExistence(pro[i], arr)) { }
                     else {
-                        if (category != "") {
-                            if (pro[i].CodeCategory == category) {
+                        if (category !== "") {
+                            if (pro[i].CodeCategory === category) {
                                 arr.push(pro[i]);
                             }
                         }
@@ -91,32 +81,23 @@ export default function Products_List(props) {
             }
         }
     }
-
     async function categoryType(val) {
         setCategory(val);
-        console.log(`val ${val}`);
-        if (val == 0) {
+        if (val === 0) {
             window.location.reload()
         }
         else {
-
             let catItems = await fetch(`http://localhost:3678/products/codecategory/${val}`, {
                 method: 'GET'
             });
             let allCatItems = await catItems.json();
-            console.log(allCatItems);
             setProducts(allCatItems);
         }
     };
-
-
     async function toTheItem(myproduct) {
         navigate(`/client/currentProduct/${myproduct.CodeItem}`, { state: { products: products, CodeItem: myproduct.CodeItem, myproduct: myproduct } });
     }
-
-
     return (<div>
-
         <div className="">
             <nav className="navs ">
                 <Link className="App-link" to={`/login`}>Log In</Link>
@@ -147,14 +128,10 @@ export default function Products_List(props) {
                     <img className='product_images img_hovering' src={`${myproduct.path}`} /><br />
                     <p className='itemName'> {myproduct.ItemName}</p>
                 </button>
-
             </div>)
             )}
         </div>
         <button className="but2" style={{ display: displayB }} onClick={() => { getProducts(1) }}>Show more</button>
         <p style={{ display: displayP, color: "black" }}>no more products</p>
-
-
     </div>);
-
 }

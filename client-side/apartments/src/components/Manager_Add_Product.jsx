@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
-import My_Manager from "./My_Manager";
 import Nav from "./Nav"
 import '../App.css';
 
@@ -13,8 +12,6 @@ export default function Manager_Add_Product(props) {
     const [amount_of_units, setamountofunits] = useState("");
     const [catagory, setcatagory] = useState("1");
     const [categories,setCategories]=useState([]);
-
-    // const [code, setcode] = useState("");
     const [price, setprice] = useState("");
     function App() {
         const handleSubmit = async (e) => {
@@ -46,7 +43,6 @@ export default function Manager_Add_Product(props) {
             let allCategories = await cat.json();
             setCategories(allCategories);
         }
-       
         getAllCategories();
     },[]);
         return (
@@ -71,22 +67,16 @@ export default function Manager_Add_Product(props) {
     function saveamountofunits(units) {
         setamountofunits(units);
     }
-    // function savecatagory(catagory) {
-    //     setcatagory(catagory);
-    // }
-    // function savecode(code) {
-    //     setcode(code);
-    // }
     function saveprice(price) {
         setprice(price);
     }
     async function save_new_product() {
-        if (product_name == '' || product_description == '' || image.preview == '' || amount_of_units == '' || catagory == '' || price == '') {
+        if (product_name === '' || product_description === '' || image.preview === '' || amount_of_units === '' || catagory === '' || price === '') {
             alert("Please fill in all input fields!!");
         }
         else {
-            if (typeof product_name == "string" && isNaN(product_name) && typeof product_description == "string"
-                && isNaN(product_description) && typeof image.preview == "string" && isNaN(image.preview) &&
+            if (typeof product_name === "string" && isNaN(product_name) && typeof product_description === "string"
+                && isNaN(product_description) && typeof image.preview === "string" && isNaN(image.preview) &&
                 !isNaN(amount_of_units) && !isNaN(catagory) && !isNaN(price) && product_name.length > 0 &&
                 product_description.length > 0 && image.preview.length > 0 && amount_of_units.length > 0 &&
                 catagory.length > 0 && price.length > 0) {
@@ -121,47 +111,27 @@ export default function Manager_Add_Product(props) {
                         })
                     })
                     ans = await ans.json();
-                    console.log(ans);
-                    // settruf(false);
                     setStatus("");
                     setImage({ preview: '', data: '' });
                     saveproductname('');
                     setproductdescription('');
                     setamountofunits('');
                     setcatagory('1');
-                    // setcode('');
                     setprice('');
                 }
             }
             else {
                 alert('There is a problem with the input fields');
-                console.log("typeof product_name: " + Number(product_name));
-                if (isNaN(amount_of_units)) {
-                    console.log("nan!");
-                }
-                console.log("typeof product_description: " + typeof product_description);
-                console.log("typeof image.preview: " + typeof image.preview);
-                console.log("typeof amount_of_units: " + typeof Number(amount_of_units));
-                console.log("typeof catagory: " + typeof catagory);
-                // console.log("typeof code: " + typeof code);
-                console.log("typeof price: " + typeof price);
             }
-          
         }
-
     }
     async function categoryType(val) {
         setcatagory(val);
-        console.log(`val ${val}`);
-
         let catItems = await fetch(`http://localhost:3678/products/codecategory/${val}`, {
             method: 'GET'
         });
         let allCatItems = await catItems.json();
-        console.log(allCatItems);
-        // setProducts(allCatItems);
     };
-    // value={product_name}
     return (<div style={{marginTop: "-21px"}}>
         <Nav></Nav>
         <div style={{marginLeft:"200px"}}>
@@ -172,7 +142,6 @@ export default function Manager_Add_Product(props) {
             <h4>put in the amount of units</h4>
             <input type="input" className="" value={amount_of_units} onChange={(e) => { saveamountofunits(e.target.value) }} placeholder="amount of units"></input>
             <h4>catagory</h4>
-            
             <select onChange={(e) => { categoryType(e.target.value) }}>
                     {categories.map((option, index) => (
                         <option key={option.CategoryCode} value={index + 1} >
@@ -180,12 +149,10 @@ export default function Manager_Add_Product(props) {
                         </option>
                     ))}
                 </select>
-          
             <h4>price</h4>
             <input type="text" className="" value={price} onChange={(e) => { saveprice(e.target.value) }} placeholder="price"></input>
             <h4>put in a product description</h4>
             <textarea className="" value={product_description} onChange={(e) => { saveproductdescription(e.target.value) }} rows="10" cols="50" placeholder="product description"></textarea >
-           
         </form>
         <br></br>
         {App()}

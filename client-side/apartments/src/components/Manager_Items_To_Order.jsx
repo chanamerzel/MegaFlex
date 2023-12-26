@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Nav from "./Nav"
 import '../App.css';
-
 export default function Manager_Items_To_Order(props) {
     const [items, setItems] = useState([]);
     useEffect(() => {
@@ -14,7 +13,6 @@ export default function Manager_Items_To_Order(props) {
         }
         getAllOrders();
     }, []);
-
     return (<div>
         <Nav />
         <br /><br /><br />
