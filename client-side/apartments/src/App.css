@@ -80,32 +80,11 @@
         
         @import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
         .navbar-menu {
-            /* margin-top: 10px; */
             height: 100vh;
             background-color: #111;
             box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.15);
             transition: all 0.5s ease;
         }
-        /*         
-        .slider {
-            -webkit-appearance: radio;
-            width: 100%;
-            height: 10px;
-            border-radius: 5px;
-            background: #d3d3d3;
-            opacity: 0.7;
-        } */
-        /* .slider:hover {
-            opacity: 1;
-        }
-         */
-        /* .slider::-webkit-slider-thumb {
-            appearance: none;
-            width: 23px;
-            height: 24px;
-            background: url('http://localhost:3678/contrast.png');
-            cursor: pointer;
-        } */
         
         .sticky {
             position: -webkit-sticky;
@@ -140,8 +119,6 @@
             height: 25px;
             width: 25px;
             background-color: #eee;
-            /* border: black; */
-            /* border-radius: 50%; */
         }
         /* On mouse-over, add a grey background color */
         
@@ -184,14 +161,10 @@
             margin-left: 765px;
             padding: 8px 16px;
             overflow: scroll;
-            /* scroll-behavior: auto; */
-            /* overscroll-behavior-x: contain; */
             overflow-x: hidden;
             position: fixed;
             background-color: white;
-            /* border-left: 1px solid black; */
             box-shadow: 5px 12px 17px 0px rgb(57, 56, 56);
-            /* transition: all 0.5s ease; */
         }
         
         div.range {
@@ -477,7 +450,6 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(243px, auto));
             grid-gap: 20px;
-            /* grid-auto-rows: 255px; */
         }
         
         .grid2 {
@@ -838,7 +810,6 @@
         
         .right-arrow {
             width: 30px;
-            /* margin-top: -94px; */
             margin-left: -472px;
         }
         
@@ -1107,4 +1078,91 @@
             margin-bottom: 10px;
             margin-left: 35px;
             margin-top: 40px;
+        }
+        
+        .but:disabled,
+        .but2:disabled,
+        .but:disabled:hover,
+        .but2:disabled:hover {
+            background-color: lightgray;
+            border-color: gray;
+            color: gray;
+        }
+        
+        table,
+        td,
+        th {
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        
+        table {
+            /* align-items: center; */
+            border-collapse: collapse;
+            width: 30%;
+            margin-left: 35%;
+            margin-top: 2%;
+            /* margin-bottom: 2%; */
+        }
+        
+        th,
+        td {
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .th {
+            text-align: center;
+        }
+        
+        .table_btn {
+            margin-top: 1%;
+            display: inline-block;
+            margin-left: -7%;
+            margin-right: -5%;
+        }
+        
+        .submit_cancel {
+            margin-top: 1%;
+            margin-left: 17px;
+            margin-right: -10px;
+        }
+        
+        .newtr {
+            margin-top: 1%;
+            display: inline-flex;
+            width: 14%;
+            margin-left: 9px;
+        }
+        
+        .Cancel_btn {
+            background-color: grey;
+            border-color: gray;
+        }
+        
+        .Cancel_btn:hover {
+            color: gray;
+            border-color: gray;
+        }
+        
+        .add_form {
+            margin-top: 2%;
+        }
+        
+        .submitChanges_btn:hover {
+            background-color: rgb(192, 80, 192);
+        }
+        
+        .submitChanges_btn {
+            background-color: purple;
+        }
+        
+        .submitChanges_btn:disabled {
+            background-color: rgb(224, 154, 224);
+            color: rgb(239, 207, 234);
+        }
+        
+        .submitChanges_btn:hover.submitChanges_btn:disabled {
+            background-color: rgb(224, 154, 224);
+            color: rgb(239, 207, 234);
         }

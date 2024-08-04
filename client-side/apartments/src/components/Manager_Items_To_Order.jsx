@@ -16,13 +16,17 @@ export default function Manager_Items_To_Order(props) {
     return (<div>
         <Nav />
         <br /><br /><br />
-       <h1 className="title2">Items that are about to run out of stock</h1>
-       <h1 className="title2"> and it is necessary to order the items to replenish the stock</h1>
+       <h1 style={{color:'purple'}} className="title2">Items that are about to run out of stock</h1>
+       <h1 style={{color:'purple'}} className="title2"> and it is necessary to order the items to replenish the stock</h1>
        <br></br>{items.map((item) =>
                     (<div className="box" key={item.CodeItem}>
-                        <p className="title3">item name:</p>{item.ItemName}
-                       <p className="title3">code item:</p> {item.CodeItem}
-                        <p className="title3">quantity left</p>{item.QuantityItem}<br></br><br></br>
+                        <h4 style={{color:'purple'}} >item name:</h4>{item.ItemName}
+                       {/* <span ><br></br>-----------------------------</span> */}
+                       <h4 style={{color:'purple'}} >code item:</h4> {item.CodeItem}
+                       {/* {/* <span ><br></br>-----------------------------</span> */} 
+                        <h4 style={{color:'purple'}} >quantity left</h4>{item.QuantityItem}<br></br><br></br>
+                       {/* {/* <span ><br></br>_____________________________</span> */} 
+                    
                     </div>)
                 )}
     </div>);

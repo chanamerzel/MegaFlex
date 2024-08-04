@@ -30,6 +30,6 @@ export default function Manager_Profits(props) {
                     </div>)
                 )}
                  <p className='title'>Total Revenues:</p>
-                    <p className="total">{sumprices(orders)}</p>
+                    <p className="total">{sumprices(orders)}$</p>
         </div>);
 }

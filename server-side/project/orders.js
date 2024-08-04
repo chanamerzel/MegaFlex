@@ -7,7 +7,7 @@ router.use(express.json());
 router.use(express.text());
 const connection = mysql.createConnection({
     host: "localhost",
-    port: 3306,
+    port: 3307,
     user: "root",
     password: "1234",
     database: "shoesshop"

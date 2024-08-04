@@ -2,6 +2,7 @@ import React, { Component, useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Routes, Route, Link, Outlet } from 'react-router-dom';
+import get_sortedProducts from './logic/get_sortedProducts'
 export default function Products_List(props) {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -81,17 +82,20 @@ export default function Products_List(props) {
             }
         }
     }
-    async function categoryType(val) {
+    async function categoryType(val,name) {
         setCategory(val);
         if (val === 0) {
             window.location.reload()
         }
         else {
-            let catItems = await fetch(`http://localhost:3678/products/codecategory/${val}`, {
-                method: 'GET'
-            });
-            let allCatItems = await catItems.json();
-            setProducts(allCatItems);
+            // let catItems = await fetch(`http://localhost:3678/products/codecategory/${val}`, {
+            //     method: 'GET'
+            // });
+            // let allCatItems = await catItems.json();
+            // setProducts(allCatItems);
+        let allProducts = await get_sortedProducts(name)
+            setProducts(allProducts);
+
         }
     };
     async function toTheItem(myproduct) {
@@ -110,9 +114,9 @@ export default function Products_List(props) {
         <label className='title2'>categories: </label>
         <div className="allS">
             <div className="select">
-                <select onChange={(e) => { categoryType(e.target.value) }}>
+                <select onChange={(e) => { categoryType(e.target.value,e.target.name) }}>
                     {categories.map((option, index) => (
-                        <option key={option.CategoryCode} value={option.CategoryCode} >
+                        <option key={option.CategoryCode} value={option.CategoryCode}  name={option.CategoryName} >
                             {option.CategoryName}
                         </option>
                     ))}

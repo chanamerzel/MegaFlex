@@ -36,7 +36,7 @@ function Log_In(props) {
                     alert("the password or username do not exist");
                 }
                 else {
-                    if ("manager" === user_name_value && "96679@gmail.com" === password_value) {
+                    if (flag.FirstName==="manager"&&(flag.CustomerID === user_name_value || flag.FirstName === user_name_value)&&password_value===flag.PassWord) {
                         navigate(`/manager`);
                     } else {
                         sessionStorage.setItem("currentuser", JSON.stringify({ password: password_value, user_name: user_name_value, cart: [], OrderID: "0" }));
@@ -85,10 +85,10 @@ function Log_In(props) {
     }
     function automatic_complete(val) {
         if (val.includes("@gmail.com") || countGmails >= 1) {
-            savePasswordValue(val)
+            saveUsernameValue(val)
         }
         else {
-            savePasswordValue(val + "@gmail.com");
+            saveUsernameValue(val + "@gmail.com");
             setcountGmails(1)
         }
     }
@@ -102,10 +102,13 @@ function Log_In(props) {
                                 <h2 className="line-hight">Log In Your Account</h2>
                             </header>
                             <div >
-                                <input step={{ marginTop: -27 }} type="input" className="form-control" value={user_name_value} onChange={(e) => { saveUsernameValue(e.target.value) }} placeholder="username"></input>
+                                <input step={{ marginTop: -27 }} type="input" className="form-control" value={user_name_value} onChange={(e) => { automatic_complete(e.target.value) }} placeholder="username\email"></input>
                             </div>
-                            <div >
+                            {/* <div >
                                 <input type="email" className="form-control" value={password_value} onChange={(e) => { automatic_complete(e.target.value) }} placeholder="email@gmail.com"></input>
+                            </div> */}
+                            <div >
+                                <input type="password" className="form-control" value={password_value} onChange={(e) => { savePasswordValue(e.target.value) }} placeholder="password"></input>
                             </div>
                             <div >
                                 <button className="btn-sign-up" onClick={checkIntegrity}>Log In</button>

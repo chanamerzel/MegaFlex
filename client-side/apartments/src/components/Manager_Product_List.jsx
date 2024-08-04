@@ -110,11 +110,11 @@ export default function Manager_Product_List(props) {
             window.location.reload()
         }
         else {
-            let catItems = await fetch(`http://localhost:3678/products/codecategory/${val}`, {
-                method: 'GET'
-            });
-            let allCatItems = await catItems.json();
-            setProducts(allCatItems);
+            // let catItems = await fetch(`http://localhost:3678/products/codecategory/${val}`, {
+            //     method: 'GET'
+            // });
+            // let allCatItems = await catItems.json();
+            // setProducts(allCatItems);
         }
     };
     async function getcategories() {
@@ -139,16 +139,19 @@ export default function Manager_Product_List(props) {
             body: JSON.stringify({ OrderID: code })
         });
         let mypro = await produc.json();
-        if (mypro.length<=0) {
         let categor = await fetch(`http://localhost:3678/products/itemdetails/${code}`, {
             method: 'GET'
         });
         let allCategorItems = await categor.json();
-        navigate("/manager/currentProduct", { state: { currentProduct: allCategorItems, categories: categories } });
+        if (mypro.length<=0 ) {
+       
+        navigate(`/manager/currentProduct/${code}`, { state: { currentProduct: allCategorItems, categories: categories,disabled:false } });
  
     }
     else{
-        alert(mypro[0].ItemName+" is ordered and cannot be changed or updated.")
+        navigate(`/manager/currentProduct/${code}`, { state: { currentProduct: allCategorItems, categories: categories,disabled:true } });
+
+        // alert(mypro[0].ItemName+" is ordered and cannot be changed or updated.")
     }
 }
     if (categories.length > 0) {

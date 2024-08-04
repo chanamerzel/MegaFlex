@@ -29,9 +29,9 @@ export default function Manager_AllUsers(props) {
 };
 return (<div style={{marginTop: "-20px"}}>
     <Nav />
-    <h1 className='title2'>all store users</h1>
-    <h1 className='title3'>search client</h1>
-    <input list='users' name='user' id='input' placeholder='הקלד אימייל לחיפוש לקוח' onKeyDown={findUser} />
+    <h1 style={{color:'purple'}} className='title2'>all store users</h1>
+    <h4 style={{color:'purple'}} >search client: 
+    <input style={{color:'purple',marginLeft:'30px'}} list='users' name='user' id='input' placeholder='הקלד אימייל לחיפוש לקוח' onKeyDown={findUser} />
     <datalist id='users'>
         {users.map(user => {
             return (
@@ -40,13 +40,30 @@ return (<div style={{marginTop: "-20px"}}>
                 </option>
             )
         })}
-    </datalist>
-    <p className="title3">{foundUser.FirstName}</p>
-    <p className="title3">{foundUser.CustomerID}</p>
+    </datalist></h4>
+{foundUser&& <div className="box" style={{backgroundColor:"rgb(234, 245, 215, 0.694)"}}  key={foundUser.CustomerID}>
+            <br/>
+            <p style={{color:'green'}} >name:    </p>
+            <p style={{color:'rgb(41, 62, 4, 0.694)'}}>{foundUser.FirstName}</p>
+            <p style={{color:'green'}}  >user email:</p>
+             <p style={{color:'rgb(41, 62, 4, 0.694)'}}>
+                {foundUser.CustomerID}</p>
+                <br/>
+                <div style={{backgroundColor:'white'}}><br ></br></div>
+       
+        </div>}
+
     <br></br>{users.map((user) =>
-        (<div className="box" key={user.CustomerID}>
-            <p className='title3'>{user.FirstName}</p>
-            <p className='title3'>user email:</p> <p className='title3'>{user.CustomerID}</p><br></br><br></br>
+        (<div className="box"  key={user.CustomerID}>
+            <br/>
+            <p style={{color:'purple'}} >name:    </p>
+            <p style={{color:'black'}}>{user.FirstName}</p>
+            <p style={{color:'purple'}}  >user email:</p>
+             <p >
+                {user.CustomerID}</p>
+                <br/>
+                <div style={{backgroundColor:'white'}}><br ></br></div>
+       
         </div>)
     )}
 </div>);

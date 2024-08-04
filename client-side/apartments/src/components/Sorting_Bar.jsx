@@ -63,9 +63,9 @@ export default function Sorting_Bar(props) {
 
         }
     }
-    async function sort_by_categories(categoryCode) {
+    async function sort_by_categories(CategoryName,categoryCode) {
         setChecked(categoryCode)
-        let products = await get_sortedProducts(categoryCode)
+        let products = await get_sortedProducts(CategoryName)
         setCurrent_products(products)
         props.setProducts(products)
         setPrice(1000)
@@ -93,7 +93,7 @@ export default function Sorting_Bar(props) {
                 <div>
                     {categories.map((category) => (
                         <label className="container" key={category.CategoryCode}>
-                            <input type="radio" onChange={() => sort_by_categories(category.CategoryCode)} checked={category.CategoryCode === checked ? true : false} name="radio" />
+                            <input type="radio" onChange={() => sort_by_categories(category.CategoryName,category.CategoryCode)} checked={category.CategoryCode === checked ? true : false} name="radio" />
                             <span className="checkmark" ></span>
                             {category.CategoryName}
                         </label>

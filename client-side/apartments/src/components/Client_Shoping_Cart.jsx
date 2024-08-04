@@ -294,13 +294,14 @@ export default function Client_Shoping_Cart() {
                                         <p>Price: {myproduct.Price * myproduct.QuantityItem}$</p>
                                         <p className="title3">quantity: </p>
                                         {shoeSizes[index] && shoeSizes[index].map((currentshoesize, i) => {
+                                            console.log(parseInt(myproduct.ItemInCartSize) +" + "+ currentshoesize.ShoeSize)
                                             if (parseInt(myproduct.ItemInCartSize) === currentshoesize.ShoeSize) {
-                                                return <div>
+                                                return( <div>
                                                     <p className="title3">{quantity[index].quantity > shoeSizes[index][i].Quantity ? saveToQuantity(index, myproduct,shoeSizes[index][i].Quantity) : quantity[index].quantity}</p>
                                                     <button className="toS" disabled={shoeSizes.length >= 1 ? shoeSizes[index][i].Quantity <= quantity[index].quantity : false} onClick={() => { increaseQ(index, myproduct) }}>+</button>
                                                     <button className="toS" disabled={quantity[index].quantity > 1 ? false : true} onClick={() => { reduceQ(index, myproduct) }}>-</button>
 
-                                                </div>
+                                                </div>)
                                             }
                                         })}
                                         <button className="but2" onClick={() => { removeItem(index, myproduct) }}>remove</button>

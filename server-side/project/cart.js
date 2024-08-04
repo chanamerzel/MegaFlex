@@ -4,7 +4,7 @@ const mysql = require('mysql2');
 
 const connection = mysql.createConnection({
     host: "localhost",
-    port: 3306,
+    port: 3307,
     user: "root",
     password: "1234",
     database: "shoesshop"
@@ -18,21 +18,32 @@ connection.connect((err) => {
         console.log('connected');
 });
 console.log("in cart");
-// router.put('/cartUpdate', (req, res) => {
-//     let orderid = req.body.OrderID;
-//     const bodyData = req.body.update;
-//     console.log(bodyData);
-//     console.log("cartUpdate");
-//     bodyData.forEach(element => {
-//         connection.query(
-//             `UPDATE shoesshop.itemsincart
-//         SET CodeItem ="${element.CodeItem}",OrderID=${orderid},Quantity=${element.Quantity}
-//         WHERE ItemInCartCode = ${element.ItemInCartCode}`, (err, rows) => {
-//                 if (err)
-//                     console.log("1err " + err);
-//             }
-//         );
-//     });
+router.get('/getByItemAndSize/:itemCode/:size', (req, res) => {
+        const itemCode = req.params.itemCode;
+        const size = req.params.size;
+        const query = `SELECT * FROM shoesshop.itemsincart  join shoesshop.orders where OrderCode=OrderID and Status !=2 and CodeItem=${itemCode} and ItemInCartSize=${size}; `
+        connection.query(query, (err, response) => {
+            if (err)
+                console.log("5err " + err);
+            res.send(response);
+        });
+
+    })
+    // router.put('/cartUpdate', (req, res) => {
+    //     let orderid = req.body.OrderID;
+    //     const bodyData = req.body.update;
+    //     console.log(bodyData);
+    //     console.log("cartUpdate");
+    //     bodyData.forEach(element => {
+    //         connection.query(
+    //             `UPDATE shoesshop.itemsincart
+    //         SET CodeItem ="${element.CodeItem}",OrderID=${orderid},Quantity=${element.Quantity}
+    //         WHERE ItemInCartCode = ${element.ItemInCartCode}`, (err, rows) => {
+    //                 if (err)
+    //                     console.log("1err " + err);
+    //             }
+    //         );
+    //     });
 
 //     res.send(true);
 // })

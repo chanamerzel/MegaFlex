@@ -4,7 +4,7 @@ const mysql = require('mysql2');
 
 const connection = mysql.createConnection({
     host: "localhost",
-    port: 3306,
+    port: 3307,
     user: "root",
     password: "1234",
     database: "shoesshop"
@@ -33,7 +33,7 @@ router.post("/", (req, res) => {
 });
 router.post('/getcustomers', (req, res) => {
     console.log(`PPPPPPPPPPPPPPreq.body${JSON.stringify(req.body)}`);
-    let sqlQuery = `SELECT * FROM customers WHERE FirstName="${req.body.username}" AND CustomerID="${req.body.password}"  ;`
+    let sqlQuery = `SELECT * FROM customers WHERE FirstName="${req.body.username}" AND (CustomerID="${req.body.password}" or PassWord="${req.body.password}")  ;`
     console.log(sqlQuery);
     connection.query(sqlQuery, (err, result, fields) => {
         if (err)

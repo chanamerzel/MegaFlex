@@ -142,8 +142,8 @@ export default function Client_Current_Product(props) {
             <p className="title3">$ {product.Price} </p>
             <form >
                 <label htmlFor="sizeOfShoe">choose size of shoe:  </label>
-                {shoeSizes.length>0?
-                <select id="sizeOfShoe" onChange={(e) => setItemInCartSize(e.target.value)} name="sizeOfShoe">
+                {console.log("shoeSizes.length: "+shoeSizes.length)}
+                {shoeSizes.length>0?<select id="sizeOfShoe" onChange={(e) => setItemInCartSize(e.target.value)} name="sizeOfShoe">
                     {shoeSizes.map((currentshoesize, i) => {
                         if (currentshoesize.Quantity > 0) {
                             return <option key={i} value={currentshoesize.ShoeSize}>{currentshoesize.ShoeSize}</option>
@@ -153,7 +153,7 @@ export default function Client_Current_Product(props) {
                 </select>:
                      <p> no size available.</p>}
             </form>
-            <button className="toS2" disabled={!currentUser ? true : emptyStock} onClick={(e) => addToCart()}>add to shopping cart</button><br />
+            <button className="toS2" disabled={!currentUser||shoeSizes.length<=0 ? true : emptyStock} onClick={(e) => addToCart()}>add to shopping cart</button><br />
         </div>);
     }
     else {

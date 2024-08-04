@@ -75,6 +75,10 @@ export default function Manager_Orderding_List(props) {
                     setShowbtn(showbtn)
                 }
             }
+            else{
+                showbtn[i]="show"
+                setShowbtn(showbtn)
+            }
         })
     }
     return (<div>

@@ -75,7 +75,7 @@ function App() {
         Route path = "manager/productlist"
         element = { < Manager_Product_List / > }
         /> <
-        Route path = "manager/currentProduct"
+        Route path = "manager/currentProduct/:id"
         element = { < Manager_Update_Product / > }
         /> <
         Route path = "client/currentProduct/:id"

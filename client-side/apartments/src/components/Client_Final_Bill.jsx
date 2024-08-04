@@ -18,7 +18,7 @@ export default function Client_Final_Bill(props) {
     const [val, setval] = useState("0");
     let navigate = useNavigate();
     useEffect(() => {
-      let price= priceCalculations();
+        let price = priceCalculations();
         setPayments(price);
     });
     async function orderConfirmation() {
@@ -27,21 +27,21 @@ export default function Client_Final_Bill(props) {
             && typeof address === "string" && typeof first_name === "string" && typeof id === "string" &&
             typeof sir_name === "string" && !isNaN(last_nums)
             && !isNaN(card_number) && val !== "0" && last_nums.length === 3 && card_number.length >= 16 && Payments > 0) {
-            let setaddress = await orders_requests("setOrder",{
+            let setaddress = await orders_requests("setOrder", {
                 address: address,
                 customerid: JSON.parse(sessionStorage.getItem("currentuser")).password
             })
-            let updateStatus = await orders_requests("updateOrdered/1",{
+            let updateStatus = await orders_requests("updateOrdered/1", {
                 OrderCode: JSON.parse(sessionStorage.getItem("currentuser")).OrderID
             })
-            let updatePrice = await orders_requests("updateOrdered/price",{
+            let updatePrice = await orders_requests("updateOrdered/price", {
                 OrderCode: JSON.parse(sessionStorage.getItem("currentuser")).OrderID,
                 OrderPrice: Payments
             })
             // updatePrice = await updatePrice.json(); 
             let currentUser = JSON.parse(sessionStorage.getItem("currentuser"));
 
-            let update_Quantity= await fetch(`http://localhost:3678/quantityofsize/Update_Quantity`, {
+            let reduce_Quantity = await fetch(`http://localhost:3678/quantityofsize/reduce_Quantity`, {
                 method: 'Put',
                 headers: {
                     'Accept': 'application/json',
@@ -49,8 +49,8 @@ export default function Client_Final_Bill(props) {
                 },
                 body: JSON.stringify(currentUser.cart)
             });
-            update_Quantity = await update_Quantity.json();
-            let update_Product_Quantity= await fetch(`http://localhost:3678/products/Update_Quantity`, {
+            reduce_Quantity = await reduce_Quantity.json();
+            let update_Product_Quantity = await fetch(`http://localhost:3678/products/Update_Quantity`, {
                 method: 'Put',
                 headers: {
                     'Accept': 'application/json',
@@ -58,14 +58,14 @@ export default function Client_Final_Bill(props) {
                 },
                 body: JSON.stringify(currentUser.cart)
             });
-            update_Product_Quantity = await update_Product_Quantity.json(); 
+            update_Product_Quantity = await update_Product_Quantity.json();
 
-            let orderCode = await orders_requests("add",{
-                        customerid: JSON.parse(sessionStorage.getItem("currentuser")).password,
-                        orderprice: Payments,
-                        date: date
-                    })
-            orderCode=Array.isArray(orderCode)?orderCode[0].OrderCode:orderCode;
+            let orderCode = await orders_requests("add", {
+                customerid: JSON.parse(sessionStorage.getItem("currentuser")).password,
+                orderprice: Payments,
+                date: date
+            })
+            orderCode = Array.isArray(orderCode) ? orderCode[0].OrderCode : orderCode;
             sessionStorage.setItem("currentuser", JSON.stringify({ password: currentUser.password, user_name: currentUser.user_name, cart: [], OrderID: orderCode }))
             navigate(`/Client`);
         }
@@ -74,10 +74,10 @@ export default function Client_Final_Bill(props) {
         }
     }
     function priceCalculations() {
-        let totalPrice=0;
+        let totalPrice = 0;
         location.state.products.map(element => {
-            let currentPrice=element.QuantityItem* element.Price;
-            totalPrice+=currentPrice;
+            let currentPrice = element.QuantityItem * element.Price;
+            totalPrice += currentPrice;
         })
         return totalPrice;
     }
@@ -92,8 +92,8 @@ export default function Client_Final_Bill(props) {
                 <p className="regularFont">price: $ {myproduct.Price}</p>
                 <p>quantity:  {myproduct.QuantityItem}</p>
                 <p>size  :  {myproduct.ItemInCartSize}</p>
-                <br/>
-                <br/>
+                <br />
+                <br />
             </div>)
             )}
         </div>
@@ -115,8 +115,10 @@ export default function Client_Final_Bill(props) {
         <input placeholder="address" value={address} onChange={(e) => { setaddress(e.target.value) }} /><br></br>
         <h1>PayMent: {Payments}</h1>
         <br></br>
-        <button className="but3" style={{paddingRight: "120px",
-    paddingLeft: "125px",marginLeft:"90px", marginBottom: "30px"}} onClick={orderConfirmation}>For order confirmation</button>
+        <button className="but3" style={{
+            paddingRight: "120px",
+            paddingLeft: "125px", marginLeft: "90px", marginBottom: "30px"
+        }} onClick={orderConfirmation}>For order confirmation</button>
     </div>);
 }
 

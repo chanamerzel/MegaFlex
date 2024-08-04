@@ -5,9 +5,14 @@ let globaldate = new Date();
 function Sign_In(props) {
     const [password_value, setPassword_value] = useState("");
     const [user_name_value, setUser_name_value] = useState("");
-    const [countGmails, setcountGmails] = useState(0);
+    const [email_value, setEmail_value] = useState("");
+
+    const [countGmails, setCountGmails] = useState(0);
 
     let navigate = useNavigate();
+    function saveEmailValue(val) {
+        setEmail_value(val);
+    }
     function savePasswordValue(val) {
         setPassword_value(val);
     }
@@ -16,11 +21,11 @@ function Sign_In(props) {
     }
     function automatic_complete(val) {
         if (val.includes("@gmail.com") || countGmails >= 1) {
-            savePasswordValue(val)
+            saveEmailValue(val)
         }
         else {
-            savePasswordValue(val + "@gmail.com");
-            setcountGmails(1)
+            saveEmailValue(val + "@gmail.com");
+            setCountGmails(1)
         }
     }
     async function checkIntegrity() {
@@ -47,17 +52,17 @@ function Sign_In(props) {
         //             flag = await flag.json();
 
         try {
-            if (password_value === '' || user_name_value === "") {
-                alert("email or username are empty");
+            if (password_value === '' || user_name_value === ""||email_value==="") {
+                alert("email , username or password are empty");
             }
             else {
-                if (!password_value.match(
+                if (!email_value.match(
                     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
                 )) {
                     alert("email is not valid");
-                    setPassword_value("");
+                    setEmail_value("");
                 }
-                if (true) {
+                // if (true) {
                     setPassword_value(password_value);
                     let flag = await fetch(`http://localhost:3678/customer/getcustomers`, {
                         method: 'POST',
@@ -99,7 +104,7 @@ function Sign_In(props) {
                     } else {
                         alert("the email or username  exist");
                     }
-                }
+                // }
             }
 
         } catch (error) {
@@ -121,11 +126,14 @@ function Sign_In(props) {
                                 <h2 className="line-hight">Create An Account</h2>
                             </header>
                             <div >
-                                <input step={{ marginTop: -27 }} type="input" className="form-control" value={user_name_value} onChange={(e) => { saveUsernameValue(e.target.value) }} id={globaldate} placeholder="username"></input>
+                                <input style={{ marginTop: -27 }} type="input" className="form-control" value={user_name_value} onChange={(e) => { saveUsernameValue(e.target.value) }} id={globaldate} placeholder="username"></input>
                             </div>
                             <div >
-                                <input type="email" className="form-control" value={password_value} onChange={(e) => { automatic_complete(e.target.value) }} placeholder="email@gmail.com"></input>
+                                <input type="email" className="form-control" value={email_value} onChange={(e) => { automatic_complete(e.target.value) }} placeholder="email@gmail.com"></input>
                                 {/* <input type="email" className="form-control" value={password_value} onChange={(e) => { savePasswordValue(e.target.value) }} id={date} placeholder="email"></input> */}
+                             </div> 
+                            <div >
+                                <input value={password_value} style={{ marginTop: -27 }} type="input" className="form-control"  onChange={(e) => { savePasswordValue(e.target.value) }} id={globaldate} placeholder="password"></input>
                             </div>
                             <div >
                                 <button className="btn-sign-up" onClick={checkIntegrity}>sign up</button>
